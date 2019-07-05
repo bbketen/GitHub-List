@@ -1,0 +1,80 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<html>
+  <head>
+
+  </head>
+  <body>
+    <header>
+      <div style="text-align:center">
+        <h1>
+          Welcome to {{ title }}!
+        </h1>
+        <p>Aramak istediğiniz kullanıcı adını giriniz:</p>
+        <input type="text" #search [(ngModel)] = "filterText" (keyup)="onKey($event.target.value)">
+      </div>
+      <div *ngIf="!filterText;else search">
+        <div  *ngFor="let favourite of favourites.items">
+          <div *ngIf="favourite.login">
+            <table>
+              <tr>
+                <td>
+                  <tr rowspan='3'>
+                    <img src={{favourite.avatar_url}} border="1" height="64" width="64">  
+                  </tr>
+                </td>
+                <td>
+                  <tr>
+                    {{favourite.login}}
+                  </tr>
+                  <tr>
+                    <button>
+                      <a  href={{favourite.html_url}}>
+                          Ziyaret et
+                      </a>
+                    </button>
+                  </tr>
+                  <tr>
+                      <button (click) = "deleteFavourite(favourite.login)">Favoriden Çıkar</button>
+                    </tr>
+                </td>
+              </tr>
+            </table>
+          </div>  
+        </div>
+      </div>
+      <ng-template #search>
+          <div  *ngFor="let obj of searchObj.items | filter:filterText">
+              <table>
+                <tr>
+                  <td>
+                    <tr rowspan='3'>
+                      <img #image src={{obj.avatar_url}} border="1" height="64" width="64">  
+                    </tr>
+                  </td>
+                  <td>
+                    <tr>
+                      {{obj.login}}
+                    </tr>
+                    <tr>
+                      <button>
+                        <a href={{obj.html_url}}>
+                            Ziyaret et
+                        </a>
+                      </button>
+                    </tr>
+                    <tr>
+                      <div *ngIf="!isHidden">
+                        <button (click) = "addFavourite(obj.login,obj.avatar_url,obj.html_url)">Favoriye Ekle</button>
+                      </div>
+                    </tr>
+                  </td>
+                </tr>
+              </table>
+            </div>
+      </ng-template>
+
+    </header>
+  </body>
+</html>
+
+
